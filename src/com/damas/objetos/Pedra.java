@@ -1,5 +1,7 @@
 package com.damas.objetos;
 
+import com.damas.gui.CasaGUI;
+
 /**
  * Representa uma Peça do jogo.
  * Possui uma casa e um tipo associado.
@@ -8,7 +10,7 @@ package com.damas.objetos;
  * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
  * @author José Alisson Rocha da Silva {@link jose.alisson2@academico.ufpb.br}
  */
-public class Pedra implements Peca {
+public class Pedra extends Peca {
 
     protected Casa casa;
     protected int tipo;
@@ -50,5 +52,14 @@ public class Pedra implements Peca {
     @Override
     public int getTipo() {
         return tipo;
+    }
+    
+    @Override
+    public void desenhar(CasaGUI casaGUI) {
+        if (this.tipo == PEDRA_BRANCA) {
+            casaGUI.desenharPedraBranca();
+        } else if (this.tipo == PEDRA_VERMELHA) {
+            casaGUI.desenharPedraVermelha();
+        }
     }
 }

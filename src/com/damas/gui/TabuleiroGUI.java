@@ -1,12 +1,12 @@
 package com.damas.gui;
 
 import java.awt.Color;
+
 import javax.swing.JPanel;
 
 import com.damas.objetos.Casa;
-import com.damas.objetos.Dama;
 import com.damas.objetos.Jogo;
-import com.damas.objetos.Pedra;
+import com.damas.objetos.Peca;
 import com.damas.objetos.Tabuleiro;
 
 /**
@@ -74,6 +74,7 @@ public class TabuleiroGUI extends JPanel {
         // return (i%2 + j%2)%2 == 0 ? CasaGUI.COR_ESCURA : CasaGUI.COR_CLARA;
     }
 
+    //POLIMORFISMO
     public void atualizar(Jogo jogo) {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
@@ -82,25 +83,10 @@ public class TabuleiroGUI extends JPanel {
                 Tabuleiro tabuleiro = jogo.getTabuleiro();
                 Casa casa = tabuleiro.getCasa(x, y);
                 if (casa.possuiPeca()) {
-                    Pedra peca = casa.getPeca();
-
-                    switch (peca.getTipo()) {
-                        case Pedra.PEDRA_BRANCA:
-                            casaGUI.desenharPedraBranca();
-                            break;
-                        case Dama.DAMA_BRANCA:
-                            casaGUI.desenharDamaBranca();
-                            break;
-                        case Pedra.PEDRA_VERMELHA:
-                            casaGUI.desenharPedraVermelha();
-                            break;
-                        case Dama.DAMA_VERMELHA:
-                            casaGUI.desenharDamaVermelha();
-                            break;
-                    }
-                }
-                else {
-                    casaGUI.apagarPeca();
+                    Peca peca = casa.getPeca();
+                    peca.desenhar(casaGUI); // Chama o método polimórfico para desenhar a peça
+                } else {
+                    casaGUI.apagarPeca();  // Apaga a peça caso a casa esteja vazia
                 }
             }
         }

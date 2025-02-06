@@ -1,5 +1,7 @@
 package com.damas.objetos;
 
+import com.damas.gui.CasaGUI;
+
 /**
  * Dama do jogo.
  * <p>Recebe uma casa e um tipo associado</p>
@@ -12,7 +14,9 @@ public class Dama extends Pedra{
      * @param tipo int tipo de peça (1 = Dama Branca, 3 = Dama vermelha) 
      */
     public Dama(Casa casa, int tipo) {
-        super(casa, tipo);
+    	super(casa, tipo);
+
+        casa.colocarPeca(this);
     }
 
     /**
@@ -29,4 +33,25 @@ public class Dama extends Pedra{
 
         return false;
     }
+   
+   @Override
+   public void desenhar(CasaGUI casaGUI) {
+       if (this.tipo == DAMA_BRANCA) {
+           casaGUI.desenharDamaBranca();
+       } else if (this.tipo == DAMA_VERMELHA) {
+           casaGUI.desenharDamaVermelha();
+       }
+   }
+
+	@Override
+	public void mover(Casa destino) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getTipo() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

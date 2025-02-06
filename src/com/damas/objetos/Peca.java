@@ -1,10 +1,12 @@
 package com.damas.objetos;
 
+import com.damas.gui.CasaGUI;
+
 /**
  * Interface com os métodos abstratos das peças
  * @author João Victor da S. Cirilo {@link joao.cirilo@academico.ufpb.br}
  */
-public interface Peca {
+public abstract class Peca {
     
     public static final int PEDRA_BRANCA = 0;
     public static final int DAMA_BRANCA = 1;
@@ -17,14 +19,14 @@ public interface Peca {
      * implementar a lógica de comer peças.
      * @param destino nova casa que ira conter esta peca.
      */
-    public void mover(Casa destino);
+    public abstract void mover(Casa destino);
     
     /**
      * Implementa a regra de movimento da peça
      * @param destino - tipo {@code Casa} destino da peça
      * @return {@code boolean}
      */
-    public boolean isMovimentoValido(Casa destino);
+    public abstract boolean isMovimentoValido(Casa destino);
 
     /**
      * Retorna o tipo da peça
@@ -34,5 +36,7 @@ public interface Peca {
      * <li>{@code int} 2 - {@code Pedra} vermelha</li>
      * <li>{@code int} 3 - {@code Dama} verelha</li>
      */
-    public int getTipo();
+    public abstract int getTipo();
+    
+    public abstract void desenhar(CasaGUI casaGUI);
 }

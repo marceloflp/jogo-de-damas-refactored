@@ -42,16 +42,11 @@ public class Dama extends Pedra{
            casaGUI.desenharDamaVermelha();
        }
    }
+   
+   @Override
+   public boolean isMesmoTipo(Peca outraPeca) {
+       // Verifica se a outra peça é uma Dama e se tem o mesmo tipo (branca ou vermelha).
+       return outraPeca instanceof Dama && this.getTipo() == outraPeca.getTipo();
+   }
 
-	@Override
-	public void mover(Casa destino) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getTipo() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

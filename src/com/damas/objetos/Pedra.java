@@ -62,4 +62,17 @@ public class Pedra extends Peca {
             casaGUI.desenharPedraVermelha();
         }
     }
+    
+    @Override
+    public boolean pertenceAoJogador(int jogador) {
+        return (jogador == 1 && (tipo == PEDRA_BRANCA || tipo == DAMA_BRANCA)) ||
+               (jogador == 2 && (tipo == PEDRA_VERMELHA || tipo == DAMA_VERMELHA));
+    }
+
+	@Override
+	public boolean isMesmoTipo(Peca outraPeca) {
+		// Verifica se a outra peça é uma Pedra e se tem o mesmo tipo (branca ou vermelha).
+        return outraPeca instanceof Pedra && this.getTipo() == outraPeca.getTipo();
+		
+	}
 }

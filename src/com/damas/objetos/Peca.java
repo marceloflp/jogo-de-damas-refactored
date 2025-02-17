@@ -39,4 +39,8 @@ public abstract class Peca {
     public abstract int getTipo();
     
     public abstract void desenhar(CasaGUI casaGUI);
+    
+    public abstract boolean pertenceAoJogador(int jogador);
+    
+    public abstract boolean isMesmoTipo(Peca outraPeca);
 }

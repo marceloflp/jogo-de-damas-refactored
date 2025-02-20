@@ -48,5 +48,15 @@ public class Dama extends Pedra{
        // Verifica se a outra peça é uma Dama e se tem o mesmo tipo (branca ou vermelha).
        return outraPeca instanceof Dama && this.getTipo() == outraPeca.getTipo();
    }
+   
+   @Override
+	public boolean isPedra() {
+		return false;
+	}
+   
+   @Override
+   public boolean podeTransformarParaDama(int y) {
+       return false;
+   }
 
 }

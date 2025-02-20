@@ -183,7 +183,7 @@ public class Jogo {
         int pecasSeguidasNoCaminho = 0;
         
         // SE O TIPO FOR PEDRA
-        if ((peca.getTipo() == Peca.PEDRA_BRANCA) || (peca.getTipo() == Peca.PEDRA_VERMELHA)) {
+        if (peca.isPedra()) {
             
             x += deltaX;
             y += deltaY;
@@ -199,14 +199,8 @@ public class Jogo {
                     }
 
                     // VERIFICA SE A PEÇA NO CAMINHO É DA MESMA COR
-                    if ((peca.getTipo() == Peca.PEDRA_BRANCA) && 
-                        ((pecaAtual.getTipo() == Peca.DAMA_BRANCA || pecaAtual.getTipo() == Peca.PEDRA_BRANCA))) {
-                            return false;
-                    } else {
-                        if ((peca.getTipo() == Peca.PEDRA_VERMELHA) && 
-                        ((pecaAtual.getTipo() == Peca.DAMA_VERMELHA || pecaAtual.getTipo() == Peca.PEDRA_VERMELHA))) {
-                            return false;
-                        }
+                    if (peca.isMesmoTipo(pecaAtual)) {
+                        return false;
                     }
 
                     return true;
@@ -229,14 +223,8 @@ public class Jogo {
                         pecasSeguidasNoCaminho += 1;
         
                         // VERIFICA SE HÁ ALGUMA PEÇA DO MESMO TIPO NO CAMINHO SE SIM, RETORNA FALSE;
-                        if ((peca.getTipo() == Peca.DAMA_BRANCA) && 
-                            ((pecaAtual.getTipo() == Peca.PEDRA_BRANCA) || (pecaAtual.getTipo() == Peca.DAMA_BRANCA))) {
-                                return false;
-                        } else {
-                            if ((peca.getTipo() == Peca.DAMA_VERMELHA) && 
-                            ((pecaAtual.getTipo() == Peca.PEDRA_VERMELHA) || (pecaAtual.getTipo() == Peca.DAMA_VERMELHA))) {
-                                    return false;
-                            }   
+                        if (peca.isMesmoTipo(pecaAtual)) {
+                            return false;
                         }
                     } else {
         
@@ -314,34 +302,23 @@ public class Jogo {
      * @return {@code boolean}
      */
     private boolean podeTransformarParaDama(Casa casa) {
-        
-        // REGRA PARA PEÇAS BRANCAS
-        if (casa.getPeca().getTipo() == Peca.PEDRA_BRANCA) {
-            if (casa.getY() == 7) return true;
-        }
-        
-        // REGRA PARA PEÇAS VERMELHAS
-        if (casa.getPeca().getTipo() == Peca.PEDRA_VERMELHA) {
-            if (casa.getY() == 0) return true;
-        }
-
-        return false;
+        return casa.getPeca().podeTransformarParaDama(casa.getY());
     }
 
     /**
      * Transforma a pedra da casa passada como parametro em dama
      * @param casa - tipo {@code Casa} contendo a peça a ser ser transformada.
      */
+    
     private void transformarPedraParaDama(Casa casa) {
-        Pedra pedra = casa.getPeca();
+        // Recupera a peça da casa, que é garantido ser uma Pedra
+        Pedra pedra = (Pedra) casa.getPeca();
 
-        if (pedra.getTipo() == Peca.PEDRA_BRANCA) {
-            Dama dama = new Dama(casa, Peca.DAMA_BRANCA);
-            pedra = (Dama) dama;
-        } else {
-            Dama dama = new Dama(casa, Peca.DAMA_VERMELHA);
-            pedra = (Dama) dama;
-        }
+        // Usa o polimorfismo para transformar a Pedra em Dama
+        Dama dama = pedra.transformarEmDama(casa);
+
+        // Substitui a peça na casa pela nova Dama
+        casa.colocarPeca(dama);
     }
 
     /**
@@ -452,31 +429,36 @@ public class Jogo {
     @Override
     public String toString() {
 
-        String retorno = "Vez: ";
+    	StringBuilder retorno = new StringBuilder();
+
+        retorno.append("Vez: ");
         if (getVez() == 1) { 
-            retorno += jogadorUm.getNome();
-            retorno += "\n";
+            retorno.append(jogadorUm.getNome()).append("\n");
         } else if (getVez() == 2) {
-            retorno += jogadorDois.getNome();
-            retorno += "\n";
+            retorno.append(jogadorDois.getNome()).append("\n");
         }
 
-        retorno += "Nº de jogadas: " + getJogada() + "\n";
-        retorno += "Jogadas sem comer peça: " + getJogadasSemComerPecas() + "\n";
-        retorno += "\n";
-        retorno += "Informações do(a) jogador(a) " + jogadorUm.getNome() + "\n";
-        retorno += "Pontos: " + jogadorUm.getPontos() + "\n";
-        retorno += "Nº de peças restantes: " + (12 - jogadorDois.getPontos()) + "\n";
-        retorno += "\n";        
-        retorno += "Informações do(a) jogador(a) " + jogadorDois.getNome() + "\n";
-        retorno += "Pontos: " + jogadorDois.getPontos() + "\n";
-        retorno += "Nº de peças restantes: " + (12 - jogadorUm.getPontos()) + "\n";
+        // Informações sobre jogadas
+        retorno.append("Nº de jogadas: ").append(getJogada()).append("\n");
+        retorno.append("Jogadas sem comer peça: ").append(getJogadasSemComerPecas()).append("\n");
+        retorno.append("\n");
+
+        // Informações do jogador 1
+        retorno.append("Informações do(a) jogador(a) ").append(jogadorUm.getNome()).append("\n");
+        retorno.append("Pontos: ").append(jogadorUm.getPontos()).append("\n");
+        retorno.append("Nº de peças restantes: ").append(12 - jogadorDois.getPontos()).append("\n");
+        retorno.append("\n");
+
+        // Informações do jogador 2
+        retorno.append("Informações do(a) jogador(a) ").append(jogadorDois.getNome()).append("\n");
+        retorno.append("Pontos: ").append(jogadorDois.getPontos()).append("\n");
+        retorno.append("Nº de peças restantes: ").append(12 - jogadorUm.getPontos()).append("\n");
 
         if (casaBloqueadaOrigem != null) {
-            retorno += "\n";
-            retorno += "Mova a peça na casa " + casaBloqueadaOrigem.getX() + ":" + casaBloqueadaOrigem.getY() + "!";
+            retorno.append("\n");
+            retorno.append("Mova a peça na casa ").append(casaBloqueadaOrigem.getX()).append(":").append(casaBloqueadaOrigem.getY()).append("!");
         }
 
-        return retorno;
+        return retorno.toString();
     }
 }

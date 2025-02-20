@@ -24,9 +24,7 @@ import com.damas.icones.IconesPecas;
  */
 public class CasaGUI extends JButton {
 
-	private CoresTabuleiro constante;
 	private IconesPecas icone;
-	private Cores cores;
 	
     // Constantes 
     public static final Color COR_CLARA = new Color(255, 255, 250);
@@ -47,7 +45,6 @@ public class CasaGUI extends JButton {
         this.y = y;
         this.cor = cor;
         this.icone = new IconesPecas();
-        this.cores = new Cores();
         setIcon(null);
 
         // Layout e cor

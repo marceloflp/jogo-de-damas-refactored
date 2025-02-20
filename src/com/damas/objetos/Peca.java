@@ -43,4 +43,8 @@ public abstract class Peca {
     public abstract boolean pertenceAoJogador(int jogador);
     
     public abstract boolean isMesmoTipo(Peca outraPeca);
+    
+    public abstract boolean isPedra();
+    
+    public abstract boolean podeTransformarParaDama(int y);
 }

@@ -75,4 +75,28 @@ public class Pedra extends Peca {
         return outraPeca instanceof Pedra && this.getTipo() == outraPeca.getTipo();
 		
 	}
+
+	@Override
+	public boolean isPedra() {
+		return true;
+	}
+	
+	@Override
+    public boolean podeTransformarParaDama(int y) {
+        if (this.tipo == PEDRA_BRANCA) {
+            return y == 7;
+        } else if (this.tipo == PEDRA_VERMELHA) {
+            return y == 0;
+        }
+        return false;
+    }
+	
+	public Dama transformarEmDama(Casa casa) {
+        if (this.tipo == PEDRA_BRANCA) {
+            return new Dama(casa, DAMA_BRANCA); 
+        } else if (this.tipo == PEDRA_VERMELHA) {
+            return new Dama(casa, DAMA_VERMELHA);
+        }
+        return null;
+    }
 }
